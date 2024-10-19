@@ -1,1 +1,114 @@
-
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+struct node{
+int data;
+struct node * link;
+};
+typedef struct node * N;
+N insert_fr(N );
+int insert_rear(N );
+N del_fr(N);
+int del_RARE (N);
+int insert_mid(N );
+int main()
+{
+    int iteam,n,i=0;
+    N first=NULL,t;
+    t=(N)malloc(sizeof(struct node));
+    t->data=18;
+    t->link=NULL;
+    first=t;
+    while(true){
+            printf("n=1 : insert front \n n=2 : insert rare \n n=3 delete front \n n=4 delete rare \n n-5 insert mid \n n=6 : display \n");
+        printf("enter your choice  : ");
+        scanf("%d",&n);
+        switch(n){
+    case 1:
+        first=insert_fr(first);
+        break;
+    case 2:
+        insert_rear(first);
+        break;
+    case 3:
+        first=del_fr(first);
+        break;
+    case 4:
+        del_RARE(first);
+        break;
+    case 5:
+        insert_mid(first);
+        break;
+    case 6:
+        dis(first);
+    default:
+        break;;
+        }
+        i++;
+    }
+}
+N insert_fr(N first){
+N t;
+int p;
+printf("enter value : ");
+scanf("%d",&p);
+t=(N)malloc(sizeof(struct node));
+t->data=p;
+t->link=first;
+return (t);
+}
+int insert_rear(N first){
+N k,e=first;
+int p;
+printf("enter value : ");
+scanf("%d",&p);
+k=(N)malloc(sizeof(struct node));
+k->data=p;
+k->link=NULL;
+while(true){
+    if(e->link==NULL){
+        e->link=k;
+        break;
+    }
+    e=e->link;
+}
+}
+N del_fr(N first){
+    free(first);
+    return(first->link);
+}
+int del_RARE(N first){
+N k,p=NULL;
+k=first;
+while(k->link!=NULL){
+        p=k;
+    k=k->link;
+}
+p->link=NULL;
+}
+int insert_mid(N first){
+int n,k,c=1;
+printf("enter the value that you want to insert and enter its previous number: ");
+scanf("%d ",&n);
+scanf("%d",&k);
+N l,m_1;
+l=(N)malloc(sizeof(struct node));
+l->data=n;
+l->link=NULL;
+m_1=first;
+while(true){
+    if (m_1->data==k){
+        m_1->link=l->link;
+        m_1->link=l;
+        break;
+    }
+}
+}
+void dis(first){
+N k;
+k=first;
+while(k!=NULL){
+    printf("%d \n ",k->data);
+    k=k->link;
+}
+}
