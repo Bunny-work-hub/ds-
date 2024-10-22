@@ -98,15 +98,23 @@ void dis(N h1){
 }
 int sort(N h1){
 N c,h;
+c=h1;
+h=c->link;
 int k;
-for(c=h1;c!=NULL;c=c->link){
-    for(h=c->link;h!=NULL;h=h->link){
+while(c!=NULL){
+    while(h!=NULL){
           if((c->data) > (h->data)){
             k=c->data;
             c->data=h->data;
             h->data=k;
+            h=h->link;
+          }
+          else{
+            h=h->link;
           }
     }
+    h=c->link;
+    c=c->link;
 }
 dis(h1);
 }
