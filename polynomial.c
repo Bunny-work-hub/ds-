@@ -7,17 +7,31 @@ int pow_x;
 struct node * link;
 };
 typedef struct node * N;
-void dis(N );
+void add_dis(N );
+void dis(N ,N);
 void insert_ra(int ,int , N);
+N pol();
+void add(N ,N );
 N insert_fr(int ,int);
 int main()
 {
     int p;
-    char a;
-    N first=NULL;
-    while(true){
+    N p1,p2;
+   // printf("enter the no of polynomials : ");
+    // scanf("%d",&p);
+    p1=pol();
+    printf("you are entering the value of second polynomial  \n ");
+    p2=pol();
+    dis(p1,p2);
+    add(p1,p2);
+}
+ N pol(){
+     int p;
+     N first=NULL;
+         char a;
+     while(true){
        int a_1,b;
-       printf("would you like to add another polynomial : y/n \n ");
+       printf("would you like to add another element : y/n \n ");
        scanf(" %c",&a);
        if(a=='y'){
             while(true){
@@ -48,8 +62,8 @@ int main()
         break;
     }
     }
-    dis(first);
-}
+    return first;
+ }
 void insert_ra(int k,int k_1,N first){
  N t,l=first;
  t=(N)malloc(sizeof(struct node));
@@ -69,10 +83,14 @@ t->pow_x=k_1;
 t->link=NULL;
 return t;
 }
-void dis (N first){
-N t=first;
+void dis (N p1,N p2){
+N t=p1,t1=p2;
 while(t!=NULL){
-    printf("%d",t->cof_x);
+    printf("%d \n ",t->cof_x);
     t=t->link;
+}
+while(t1!=NULL){
+    printf("%d \n ",t1->cof_x);
+    t1=t1->link;
 }
 }
