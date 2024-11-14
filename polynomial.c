@@ -1,3 +1,4 @@
+                                                QUEUE 2 DEL AND 1 INSERT
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
