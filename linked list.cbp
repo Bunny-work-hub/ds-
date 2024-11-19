@@ -39,11 +39,11 @@ void insert(N k){
     printf("enter the data of node: ");
     scanf("%d",&a);
     l=getnode(a);
-    while(t!=NULL){
-        if((t->data > l->data) && ((t->llink && t->rlink) || (t->llink)==NULL)){
+    while((t->rlink!=NULL) || (t->llink==NULL)){
+        if((t->data > l->data) && ((t->llink==NULL && t->rlink==NULL) || (t->llink)==NULL)){
             t->llink=l;
         }
-        else if((t->data < l->data) && ((t->llink && t->rlink) || (t->rlink) ==NULL)){
+        else if((t->data < l->data) && ((t->llink==NULL && t->rlink==NULL) || (t->rlink) ==NULL)){
             t->rlink=l;
         }
         else if(t->data > l->data){
