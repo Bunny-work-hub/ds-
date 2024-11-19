@@ -1,114 +1,73 @@
+                                                                                            #TREES
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
 struct node{
-int data;
-struct node * link;
+    int data;
+    struct node * llink;
+    struct node * rlink;
 };
 typedef struct node * N;
-N insert_fr(N );
-int insert_rear(N );
-N del_fr(N);
-int del_RARE (N);
-int insert_mid(N );
-int main()
-{
-    int iteam,n,i=0;
-    N first=NULL,t;
-    t=(N)malloc(sizeof(struct node));
-    t->data=18;
-    t->link=NULL;
-    first=t;
+N getnode(int );
+void insert(N );
+void dis(N );
+int main(){
+    int n;
+    char a_1;
+    N k;
+    k=(N)malloc(sizeof(struct node));
+    printf("enter the root data : ");
+    scanf("%d",&n);
+    k->data=n;
+    k->llink=NULL;
+    k->rlink=NULL;
     while(true){
-            printf("n=1 : insert front \n n=2 : insert rare \n n=3 delete front \n n=4 delete rare \n n-5 insert mid \n n=6 : display \n");
-        printf("enter your choice  : ");
-        scanf("%d",&n);
-        switch(n){
-    case 1:
-        first=insert_fr(first);
-        break;
-    case 2:
-        insert_rear(first);
-        break;
-    case 3:
-        first=del_fr(first);
-        break;
-    case 4:
-        del_RARE(first);
-        break;
-    case 5:
-        insert_mid(first);
-        break;
-    case 6:
-        dis(first);
-    default:
-        break;;
+        printf("would you like to insert a node : ");
+        scanf(" %c",&a_1);
+        if(a_1=='y'){
+            insert(k);
         }
-        i++;
+        else{
+            break;
+        }
+    }
+    dis(k);
+}
+void insert(N k){
+    N t=k,l;
+    int a;
+    printf("enter the data of node: ");
+    scanf("%d",&a);
+    l=getnode(a);
+    while(t!=NULL){
+        if((t->data > l->data) && ((t->llink && t->rlink) || (t->llink)==NULL)){
+            t->llink=l;
+        }
+        else if((t->data < l->data) && ((t->llink && t->rlink) || (t->rlink) ==NULL)){
+            t->rlink=l;
+        }
+        else if(t->data > l->data){
+            t=t->llink;
+        }
+        else if(t->data < l->data){
+            t=t->rlink;
+        }
     }
 }
-N insert_fr(N first){
-N t;
-int p;
-printf("enter value : ");
-scanf("%d",&p);
-t=(N)malloc(sizeof(struct node));
-t->data=p;
-t->link=first;
-return (t);
+N getnode(int k_1){
+    N k;
+    k=(N)malloc(sizeof(struct node));
+    k->data=k_1;
+    k->llink=NULL;
+    k->rlink=NULL;
+    return k;
 }
-int insert_rear(N first){
-N k,e=first;
-int p;
-printf("enter value : ");
-scanf("%d",&p);
-k=(N)malloc(sizeof(struct node));
-k->data=p;
-k->link=NULL;
-while(true){
-    if(e->link==NULL){
-        e->link=k;
-        break;
+void dis(N k){
+    N t=k;
+    if(t==NULL){
+        return;
     }
-    e=e->link;
-}
-}
-N del_fr(N first){
-    free(first);
-    return(first->link);
-}
-int del_RARE(N first){
-N k,p=NULL;
-k=first;
-while(k->link!=NULL){
-        p=k;
-    k=k->link;
-}
-p->link=NULL;
-}
-int insert_mid(N first){
-int n,k,c=1;
-printf("enter the value that you want to insert and enter its previous number: ");
-scanf("%d ",&n);
-scanf("%d",&k);
-N l,m_1;
-l=(N)malloc(sizeof(struct node));
-l->data=n;
-l->link=NULL;
-m_1=first;
-while(true){
-    if (m_1->data==k){
-        m_1->link=l->link;
-        m_1->link=l;
-        break;
-    }
-}
-}
-void dis(first){
-N k;
-k=first;
-while(k!=NULL){
-    printf("%d \n ",k->data);
-    k=k->link;
-}
+    dis(t->llink);
+    printf("%d",t->data);
+    dis(t->rlink);
 }
