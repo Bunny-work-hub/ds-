@@ -4,70 +4,150 @@
 #include<stdbool.h>
 struct node{
     int data;
-    struct node * llink;
-    struct node * rlink;
+    struct node *llink;
+    struct node *rlink;
 };
-typedef struct node * N;
-N getnode(int );
-void insert(N );
+typedef struct node *N;
+int insert(N );
+N get_node(int );
 void dis(N );
 int main(){
     int n;
-    char a_1;
+    char a;
     N k;
     k=(N)malloc(sizeof(struct node));
-    printf("enter the root data : ");
-    scanf("%d",&n);
-    k->data=n;
-    k->llink=NULL;
-    k->rlink=NULL;
-    while(true){
-        printf("would you like to insert a node : ");
-        scanf(" %c",&a_1);
-        if(a_1=='y'){
-            insert(k);
-        }
-        else{
-            break;
-        }
+printf("enter the root node : ");
+scanf("%d",&n);
+k->data=n;
+k->llink=NULL;
+k->rlink=NULL;
+while(true){
+    printf("would you like to insert a node : ");
+    scanf(" %c",&a);
+    if(a=='y'){
+    int q=insert(k);
+    if(q==1){
+        insert(k);
     }
+    }
+    else{
+        break;
+    }
+}
+dis(k);
+search(k);
     dis(k);
 }
-void insert(N k){
-    N t=k,l;
-    int a;
-    printf("enter the data of node: ");
-    scanf("%d",&a);
-    l=getnode(a);
-    while((t->rlink!=NULL) || (t->llink==NULL)){
-        if((t->data > l->data) && ((t->llink==NULL && t->rlink==NULL) || (t->llink)==NULL)){
-            t->llink=l;
-        }
-        else if((t->data < l->data) && ((t->llink==NULL && t->rlink==NULL) || (t->rlink) ==NULL)){
-            t->rlink=l;
-        }
-        else if(t->data > l->data){
+int insert(N k){
+     N t=k,l,p;
+     int a;
+     printf("enter the node ");
+     scanf("%d",&a);
+     l=get_node(a);
+     while(t!=NULL){
+        p=t;
+        if(t->data > l->data){
             t=t->llink;
         }
-        else if(t->data < l->data){
+        else if(t->data == l->data){
+            printf("duplicates not allowed ");
+            return 1;
+        }
+        else{
+            t=t->rlink;
+        }
+     }
+     if(p->data > l->data){
+        p->llink=l;
+     }
+     else{
+        p->rlink=l;
+     }
+}
+void del(N k,N p,int l,N t,int a){
+    N y,y_1;
+    if(l==1){
+        if((t->llink && t->rlink)==NULL){ // leaf node
+            if((p->rlink->data)==a){
+                p->rlink=NULL;
+            }
+            else{
+                p->llink=NULL;
+            }
+        }
+        else if ((t->llink && t->rlink)!=NULL){ //root node 
+        if(p->llink==t){  //left side root to be deleted 
+            y_1=t->llink;
+            p->llink=t->rlink;
+        y=p->llink;
+        }
+        else{ //right child root to be deleted 
+            y_1=t->llink;
+            p->rlink=t->rlink;
+            y=p->rlink;
+        }
+            while(y->llink!=NULL){
+                y=y->llink;
+            }
+            y->llink=y_1;
+        }
+        else{ //single child 
+            if(p->llink==t){
+                if(t->llink==NULL){
+                    p->llink=t->rlink;
+                }
+                else{
+                    p->llink=t->llink;
+                }
+            }
+            else{
+               if(t->llink==NULL){
+                    p->rlink=t->rlink;
+                }
+                else{
+                    p->rlink=t->llink;
+                }
+            }
+        }
+    }
+    else{
+        printf("element not found ");
+    }
+
+}
+void search(N k){
+    int a,l=0;
+    N t=k,p;
+    printf("enter the element that you want to search  :");
+    scanf("%d",&a);
+    while(t!=NULL){
+        if(t->data > a){
+                p=t;
+            t=t->llink;
+        }
+        else if(t->data == a){
+                l=1;
+                break;
+        }
+        else{
+            p=t;
             t=t->rlink;
         }
     }
+    del(k,p,l,t,a);
 }
-N getnode(int k_1){
-    N k;
-    k=(N)malloc(sizeof(struct node));
-    k->data=k_1;
-    k->llink=NULL;
-    k->rlink=NULL;
-    return k;
+N get_node(int k){
+    N t_1;
+    t_1=(N)malloc(sizeof(struct node));
+    t_1->data=k;
+    t_1->llink=NULL;
+    t_1->rlink=NULL;
+    return t_1;
 }
 void dis(N k){
-    N t=k;
-    if(t==NULL){
-        return;
-    }
-    dis(t->llink);
-    printf("%d",t->data);
-    dis(t->rlink);
+N t=k;
+if(t==NULL)return;
+dis(t->llink);
+printf("%d ",t->data);
+dis(t->rlink);
 }
