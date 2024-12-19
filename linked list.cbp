@@ -2,107 +2,109 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+int l=0;
 struct node{
-    int data;
-    struct node *llink;
-    struct node *rlink;
+int data;
+struct node *llink;
+struct node *rlink;
 };
-typedef struct node *N;
-int insert(N );
-N get_node(int );
+typedef struct node * N;
+void insert(N );
 void dis(N );
+void search(N );
+void del(N ,N );
 int main(){
-    int n;
-    char a;
-    N k;
-    k=(N)malloc(sizeof(struct node));
-printf("enter the root node : ");
-scanf("%d",&n);
-k->data=n;
-k->llink=NULL;
-k->rlink=NULL;
-while(true){
-    printf("would you like to insert a node : ");
-    scanf(" %c",&a);
-    if(a=='y'){
-    int q=insert(k);
-    if(q==1){
-        insert(k);
-    }
-    }
-    else{
-        break;
-    }
-}
-dis(k);
-search(k);
-    dis(k);
-}
-int insert(N k){
-     N t=k,l,p;
-     int a;
-     printf("enter the node ");
-     scanf("%d",&a);
-     l=get_node(a);
-     while(t!=NULL){
-        p=t;
-        if(t->data > l->data){
-            t=t->llink;
+    N t;
+    int a;
+    char c;
+    t=(N)malloc(sizeof(struct node));
+    printf("enter the root node : ");
+    scanf("%d",&a);
+    t->data=a;
+    t->llink =NULL;
+    t->rlink =NULL;
+    while(true){
+        printf("would u like to insert node y delete d else e");
+        scanf(" %c",&c);
+        if(c=='y'){
+            insert(t);
         }
-        else if(t->data == l->data){
-            printf("duplicates not allowed ");
-            return 1;
+        else if(c=='d'){
+           search(t);
         }
         else{
-            t=t->rlink;
+            break;
         }
-     }
-     if(p->data > l->data){
-        p->llink=l;
-     }
-     else{
-        p->rlink=l;
-     }
+    }
+    dis(t);
 }
-void del(N k,N p,int l,N t,int a){
+void insert(N root){
+    int a;
+    N t,k=root,p;
+    t=(N)malloc(sizeof(struct node));
+    printf("enter the data ");
+    scanf("%d",&a);
+    t->data=a;
+    t->llink=NULL;
+    t->rlink=NULL;
+    while(k!=NULL){
+        if(k->data > t->data){
+            p=k;
+            k=k->llink;
+        }
+        else{
+            p=k;
+            k=k->rlink;
+        }
+        
+    }
+    if(p->data > t->data){
+        p->llink=t;
+    }
+    else{
+        p->rlink=t;
+    }
+}
+void del(N p,N t){
     N y,y_1;
-    if(l==1){
-        if((t->llink && t->rlink)==NULL){ // leaf node
-            if((p->rlink->data)==a){
-                p->rlink=NULL;
-            }
-            else{
+    if(l == 1){
+        if((t->llink==NULL) && (t->rlink ==NULL)){
+            if(p->llink==t){
                 p->llink=NULL;
             }
-        }
-        else if ((t->llink && t->rlink)!=NULL){ //root node 
-        if(p->llink==t){  //left side root to be deleted 
-            y_1=t->llink;
-            p->llink=t->rlink;
-        y=p->llink;
-        }
-        else{ //right child root to be deleted 
-            y_1=t->llink;
-            p->rlink=t->rlink;
-            y=p->rlink;
-        }
-            while(y->llink!=NULL){
-                y=y->llink;
+            else{
+                p->rlink=NULL;
             }
-            y->llink=y_1;
         }
-        else{ //single child 
+        else if((t->rlink!=NULL) && (t->llink!=NULL)){
+            if(p->llink == t){
+                y=t->llink;
+                y_1=t->rlink;
+                p->llink=t->rlink;
+                
+            }
+            else{
+                y=t->llink;
+                y_1=t->rlink;
+                p->rlink=t->rlink;
+            }
+            while(y_1->llink!=NULL){
+                y_1=y_1->llink;
+            }
+            y_1->llink=y;
+        }
+        else{
             if(p->llink==t){
-                if(t->llink==NULL){
-                    p->llink=t->rlink;
+                if(t->llink ==NULL && t->rlink!=NULL){
+                p->llink=t->rlink;
                 }
                 else{
                     p->llink=t->llink;
                 }
             }
             else{
-               if(t->llink==NULL){
-                    p->rlink=t->rlink;
+                  if(t->llink ==NULL && t->rlink!=NULL){
+                p->rlink=t->rlink;
                 }
                 else{
                     p->rlink=t->llink;
@@ -113,41 +115,34 @@ void del(N k,N p,int l,N t,int a){
     else{
         printf("element not found ");
     }
-
 }
-void search(N k){
-    int a,l=0;
-    N t=k,p;
-    printf("enter the element that you want to search  :");
+void search(N root){
+    N t=root,p;
+    int a;
+    printf("enter the element that u want to delete : ");
     scanf("%d",&a);
     while(t!=NULL){
         if(t->data > a){
-                p=t;
+            p=t;
             t=t->llink;
         }
         else if(t->data == a){
-                l=1;
-                break;
+            l=1;
+            break;
         }
         else{
             p=t;
             t=t->rlink;
         }
     }
-    del(k,p,l,t,a);
+    del(p,t);
 }
-N get_node(int k){
-    N t_1;
-    t_1=(N)malloc(sizeof(struct node));
-    t_1->data=k;
-    t_1->llink=NULL;
-    t_1->rlink=NULL;
-    return t_1;
-}
-void dis(N k){
-N t=k;
-if(t==NULL)return;
-dis(t->llink);
-printf("%d ",t->data);
-dis(t->rlink);
+void dis(N root){
+    N t=root;
+    if(root==NULL){
+        return;
+    }
+    dis(t->llink);
+    printf("%d ",t->data);
+    dis(t->rlink);
 }
