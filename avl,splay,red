@@ -1,0 +1,95 @@
+                                                                                                     //   AVL TREE 
+#include<stdio.h>
+#include<stdlib.h>
+#include<stdbool.h>
+struct node{
+int data;
+struct node *left;
+struct node *right;
+int height;
+};
+typedef struct node * N;
+int Height(N t){
+if(t==NULL)
+    return 0;
+return t->height;
+}
+int max(int a,int b){
+return (a>b)?a:b;
+}
+int bal(N t){
+    if (t==NULL){
+        return 0;
+    }
+    return (Height(t->left))-(Height(t->right));
+}
+N single_left(N x){
+N y,t2;
+y=x->left;
+t2=y->right;
+y->right=x;
+x->left=t2;
+x->height=max((Height(x->left)),Height(x->right))+1;
+y->height=max((Height(y->left)),Height(y->right))+1;
+return y ;
+}
+N single_right(N x){
+    N y,t1;
+    y=x->right;
+    t1=y->left;
+    y->left=x;
+    x->right=t1;
+    x->height=max((Height(x->left)),Height(x->right))+1;
+    y->height=max((Height(y->left)),Height(y->right))+1;
+    return y;
+}
+N insert(N ptr,int el){
+if(ptr==NULL){
+        N ptr=(N)malloc(sizeof(struct node));
+        ptr->data=el;
+        ptr->left=ptr->right=NULL;
+        ptr->height=1;
+        return ptr;
+}
+if(el<ptr->data){
+    ptr->left=insert(ptr->left,el);
+}
+else if(el >ptr->data){
+    ptr->right=insert(ptr->right,el);
+}
+else{
+    return ptr;
+}
+ptr->height=max((Height(ptr->left)),Height(ptr->right))+1;
+int bf=bal(ptr);
+if(bf>1 && el<ptr->left->data){
+    return (single_left(ptr));
+}
+if(bf < -1 && el>ptr->right->data)
+    return (single_right(ptr));
+if(bf>1 && el>ptr->left->data){
+    ptr->left=single_right(ptr->left);
+    return single_left(ptr);
+}
+if(bf < -1 && el<ptr->right->data){
+    ptr->right=single_left(ptr->right);
+    return single_right(ptr);
+}
+return ptr;
+}
+void dis(N root){
+    if(root==NULL){
+        return;
+    }
+    dis(root->left);
+    printf("%d",root->data);
+    dis(root->right);
+}
+int main(){
+N ptr=NULL;
+ptr=insert(ptr,10);
+ptr=insert(ptr,20);
+ptr=insert(ptr,16);
+ptr=insert(ptr,23);
+dis(ptr);
+}
